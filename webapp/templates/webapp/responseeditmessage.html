@@ -1,0 +1,35 @@
+{% extends "webapp/index.html" %}
+
+{% block content %}
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="../../../" id="navtitle">Devhaven.io</a>
+        </div>
+        <ul class="nav navbar-nav">
+          {% if authenticated %}
+            <li><a href="../../../startthread">Start Thread</a></li>
+            <li><a href="../../../yourfeed">Your Threads</a></li>
+          {% endif %}
+        </ul>
+        {% if not authenticated %}
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../../../register">Sign Up</a></li>
+            <li><a href="../../../login">Login</a></li>
+          </ul>
+        {% endif %}
+        {% if authenticated %}
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../../../logout/">Logout</a></li>
+          </ul>
+        {% endif %}
+      </div>
+    </nav>
+
+<!--<div class="content">-->
+<div class="container">
+  <div style="font-size: 125%" align="center">
+    Your response has been successfully edited :D.
+  </div>
+</div>
+{% endblock %}

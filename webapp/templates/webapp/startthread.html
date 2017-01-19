@@ -1,0 +1,219 @@
+{% extends "webapp/index.html" %}
+
+{% block content %}
+<script>
+  tinymce.init({ selector:'textarea',
+  plugins: "codesample link",
+  toolbar: "styleselect | undo redo | removeformat | bold italic underline |  aligncenter alignjustify  | bullist numlist outdent indent | link | codesample",
+  content_css: "../static/webapp/custom_content.css",
+  'paste_remove_spans': true,
+  fontsize_formats: "16px",
+  style_formats:
+   [
+      {
+         title:'Inline',
+         items:[
+            {
+               title:'Bold',
+               icon:'bold',
+               format:'bold'
+            },
+            {
+               title:'Italic',
+               icon:'italic',
+               format:'italic'
+            },
+            {
+               title:'Underline',
+               icon:'underline',
+               format:'underline'
+            },
+            {
+               title:'Strikethrough',
+               icon:'strikethrough',
+               format:'strikethrough'
+            },
+            {
+               title:'Superscript',
+               icon:'superscript',
+               format:'superscript'
+            },
+            {
+               title:'Subscript',
+               icon:'subscript',
+               format:'subscript'
+            },
+            {
+               title:'Code',
+               icon:'code',
+               format:'code'
+            }
+         ]
+      },
+      {
+         title:'Blocks',
+         items:[
+            {
+               title:'Paragraph',
+               format:'p'
+            },
+            {
+               title:'Blockquote',
+               format:'blockquote'
+            },
+            {
+               title:'Div',
+               format:'div'
+            },
+            {
+               title:'Pre',
+               format:'pre'
+            }
+         ]
+      },
+      {
+         title:'Alignment',
+         items:[
+            {
+               title:'Left',
+               icon:'alignleft',
+               format:'alignleft'
+            },
+            {
+               title:'Center',
+               icon:'aligncenter',
+               format:'aligncenter'
+            },
+            {
+               title:'Right',
+               icon:'alignright',
+               format:'alignright'
+            },
+            {
+               title:'Justify',
+               icon:'alignjustify',
+               format:'alignjustify'
+            }
+         ]
+      }
+   ],
+  setup : function(ed) {
+     ed.on('init', function(ed) {
+      ed.target.editorCommands.execCommand("fontName", false, "Helvetica");
+      ed.target.editorCommands.execCommand("fontSize", false, "14px");
+     });
+    }
+  });
+</script>
+
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="../" id="navtitle">Devhaven.io</a>
+        </div>
+        <ul class="nav navbar-nav">
+          {% if authenticated %}
+            <li><a href="../startthread">Start Thread</a></li>
+            <li><a href="../yourfeed">Your Threads</a></li>
+          {% endif %}
+        </ul>
+        {% if not authenticated %}
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../register">Sign Up</a></li>
+            <li><a href="../login">Login</a></li>
+          </ul>
+        {% endif %}
+        {% if authenticated %}
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../logout/">Logout</a></li>
+          </ul>
+        {% endif %}
+      </div>
+    </nav>
+
+{% if authenticated %}
+<!--<div class="content">-->
+<div class="container">
+  <div>
+    {% if authenticated %}
+    <br>
+    <div class="description-div">
+      <p id="description">Before posting a new thread, please glance your post over to make sure that it is on-topic (must relate directly to programming) and thorough (provides enough detail), yet is concise and clear. <b>LaTeX</b> features and syntax highlighting for more languages will be supported soon. Currently, we support syntax highlighting for 10 major languages (HTML/XML, JavaScript, CSS, PHP, Ruby, Python, Java, C, C#, and C++). Note that this discussion form is <b>not</b> for questions / requests on the website itself &mdash; concerns must be brought up in an email to <a href="mailto:henry.david.zhu@gmail.com"><b><span class="underline">Henry (henry.david.zhu@gmail.com)</span></b></a>. Make sure your threads are thorough but concise!<br><br><b>Post not working:</b> You most likely are not able to post a thread because your title is less than 10 characters, or exceeds 150 characters. You also may not be able to view your post if your post has the same title as a previous thread.</p>
+    </div>
+    <div class="thread-div">
+      <form action="" class='form-horizontal' method="POST" action="">
+        {% csrf_token %}
+        <div class="form-group">  
+          <div class="col-md-12">
+            <input id="id_title" class="form-control" name="title" type="text" placeholder="Thread Title" pattern=".{10,}" title="The thread title must be at least 10 characters in length." style="font-size: 15px;"/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-md-12">     
+            <textarea id="id_text" name="text" rows="10" placeholder="Content" class="tinymce"></textarea>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-md-12">
+            <select name="field" class="form-control">
+                <option disabled></option>
+                <option>Hardware and OS</option>
+                <option value="Desktops">&nbsp;&nbsp;&nbsp;&nbsp;Desktops</option>
+                <option value="Tablets">&nbsp;&nbsp;&nbsp;&nbsp;Tablets</option>
+                <option value="Phones">&nbsp;&nbsp;&nbsp;&nbsp;Phones</option>
+                <option value="Wearables">&nbsp;&nbsp;&nbsp;&nbsp;Wearables</option>
+                <option value="Windows">&nbsp;&nbsp;&nbsp;&nbsp;Windows</option>
+                <option value="Mac OS X">&nbsp;&nbsp;&nbsp;&nbsp;Mac OS X</option>
+                <option value="Linux and Unix">&nbsp;&nbsp;&nbsp;&nbsp;Linux and Unix</option>
+                <option disabled></option>
+                <option>Programming and Computer Science</option>
+                <option value="Software Development">&nbsp;&nbsp;&nbsp;&nbsp;Software Development</option>
+                <option value="Web Development (Front)">&nbsp;&nbsp;&nbsp;&nbsp;Web Development (Front)</option>
+                <option value="Web Development (Back)">&nbsp;&nbsp;&nbsp;&nbsp;Web Development (Back)</option>
+                <option value="Mobile Development">&nbsp;&nbsp;&nbsp;&nbsp;Mobile Development</option>
+                <option value="Game Development">&nbsp;&nbsp;&nbsp;&nbsp;Game Development</option>
+                <option value="Algorithms and Data Structures">&nbsp;&nbsp;&nbsp;&nbsp;Algorithms and Data Structures</option>
+                <option value="Databases">&nbsp;&nbsp;&nbsp;&nbsp;Databases</option>
+                <option value="IDE / Text Editors">&nbsp;&nbsp;&nbsp;&nbsp;IDE / Text Editors</option>
+                <option disabled></option>
+                <option>Community Discussion</option>
+                <option value="Tutorial">&nbsp;&nbsp;&nbsp;&nbsp;Tutorial</option>
+                <option value="Opinion">&nbsp;&nbsp;&nbsp;&nbsp;Opinion</option>
+                <option value="Miscellaneous">&nbsp;&nbsp;&nbsp;&nbsp;Miscellaneous</option>
+                <option disabled></option>
+            </select>
+          </div>
+        </div>
+
+          <div class="form-group">
+            <div class="col-md-3" id="submit-thread">
+            <button type="submit" class="btn btn-primary" id="submit-button">Submit New Thread</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  {% endif %}
+</div>
+<br>
+</div>
+{% endif %}
+
+  {% if not authenticated %}
+<div class="container">
+  <div class="content" style="font-size: 16px;">
+    You must be a registered user to post.
+  </div>
+</div>
+  {% endif %}
+
+  <script>
+    var error = "{{error}}";
+    console.log("Error length: " + error.length);
+    
+    if (error.length > 0) {
+      alert(error);
+    }
+  </script>
+{% endblock %}

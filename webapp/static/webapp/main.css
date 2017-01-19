@@ -1,0 +1,165 @@
+@charset "utf-8";
+html,
+body {
+    margin: 0;
+    padding: 0;
+    background: rgb(255, 255, 255);
+    color: black;
+}
+* {
+    font-family: Arial, sans-serif;
+    border-radius: 0 !important;
+}
+hr {
+    border: 0;
+    height: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.15);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+h1 {
+    font-weight: normal;
+    font-size: 24px;
+}
+.bold {
+    font-weight: bold;
+}
+.field {
+    color: black;
+    font-weight: bold;
+}
+.green {
+    color: #258e25;
+    font-weight: bold;
+}
+.red {
+    color: red;
+    font-weight: bold;
+}
+.underline {
+    color: black;
+    text-decoration: underline;
+}
+.container-fluid a {
+    color: white !important;
+    font-size: 110%;
+}
+.container {
+    border-radius: 14px !important;
+    padding: 10px;
+}
+#navtitle {
+    font-size: 125%;
+}
+#login-wrapper, #register-wrapper {
+    width: 400px;
+}
+#first {
+    border-bottom: none;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+#second {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;    
+}
+#sign-in, #sign-up {
+    width: 100%;
+    font-size: 100%;
+    background: rgb(40, 40, 40);
+    border: 0;
+}
+#forgot {
+    font-size: 90%;
+    float: right;
+}
+#third {
+    border-radius: 0;
+    border-bottom: 0;
+}
+#submit-thread {
+    float: right;
+}
+#submit-button {
+    width: 100%;
+    background: rgb(40, 40, 40);
+    border: 0;
+    border-radius: 0;
+}
+*[style] {
+    font-family: Arial, sans-serif !important;
+}
+.comments *[style], .over *[style] {
+    font-size: 100% !important;
+}
+.navbar-default {
+    background: rgb(40, 40, 40);
+    border-radius: 0;
+    border: 0;
+}
+.postlink {
+    color: black;
+    font-weight: bold;
+}
+.black {
+    color: black;
+}
+.postlink:hover, .black:hover {
+    color: black;
+    text-decoration: underline;
+}
+.postlink:active, .black:active {
+    color: black;
+    text-decoration: underline;
+}
+.postlink:visited, .black:visited {
+    color: black;
+    text-decoration: underline;
+}
+.username {
+    font-size: 125%;
+}
+#submit-button {
+    border: none;
+}
+#parsebutton {
+    background: black;
+    color: white;
+    border: 0;
+    border-radius: 6px;
+    padding-left: 13px;
+    padding-right: 13px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    outline: none;
+}
+#parsebutton:focus {
+    outline: none;
+}
+#categoryselector {
+    border: 1px solid rgb(202, 202, 202);
+    outline: 0;
+}
+.fa-flag {
+    color: red;
+}
+#black {
+    color: black;
+    cursor: pointer;
+}
+.content {
+    width: 30%;
+    float: left;
+}
+.post {
+    float: right;
+    width: 68%;
+}
+.smaller {
+    font-size: 150%;
+}
+#topic {
+    font-size: 105%;
+}
+select {
+    background: white;
+}

@@ -1,0 +1,250 @@
+{% extends "webapp/index.html" %}
+
+{% block content %}
+<script>
+  tinymce.init({ selector:'textarea',
+  plugins: "codesample link",
+  toolbar: "styleselect | undo redo | removeformat | bold italic underline |  aligncenter alignjustify  | bullist numlist outdent indent | link | codesample",
+  content_css: "../../static/webapp/custom_content.css",
+  'paste_remove_spans': true,
+  fontsize_formats: "14px",
+  style_formats:
+   [
+      {
+         title:'Inline',
+         items:[
+            {
+               title:'Bold',
+               icon:'bold',
+               format:'bold'
+            },
+            {
+               title:'Italic',
+               icon:'italic',
+               format:'italic'
+            },
+            {
+               title:'Underline',
+               icon:'underline',
+               format:'underline'
+            },
+            {
+               title:'Strikethrough',
+               icon:'strikethrough',
+               format:'strikethrough'
+            },
+            {
+               title:'Superscript',
+               icon:'superscript',
+               format:'superscript'
+            },
+            {
+               title:'Subscript',
+               icon:'subscript',
+               format:'subscript'
+            },
+            {
+               title:'Code',
+               icon:'code',
+               format:'code'
+            }
+         ]
+      },
+      {
+         title:'Blocks',
+         items:[
+            {
+               title:'Paragraph',
+               format:'p'
+            },
+            {
+               title:'Blockquote',
+               format:'blockquote'
+            },
+            {
+               title:'Div',
+               format:'div'
+            },
+            {
+               title:'Pre',
+               format:'pre'
+            }
+         ]
+      },
+      {
+         title:'Alignment',
+         items:[
+            {
+               title:'Left',
+               icon:'alignleft',
+               format:'alignleft'
+            },
+            {
+               title:'Center',
+               icon:'aligncenter',
+               format:'aligncenter'
+            },
+            {
+               title:'Right',
+               icon:'alignright',
+               format:'alignright'
+            },
+            {
+               title:'Justify',
+               icon:'alignjustify',
+               format:'alignjustify'
+            }
+         ]
+      }
+   ],
+  setup : function(ed) {
+     ed.on('init', function(ed) {
+      ed.target.editorCommands.execCommand("fontName", false, "Helvetica");
+      ed.target.editorCommands.execCommand("fontSize", false, "14px");
+     });
+    }
+  });
+</script>
+
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="../" id="navtitle">Devhaven.io</a>
+        </div>
+        <ul class="nav navbar-nav">
+          {% if authenticated %}
+            <li><a href="../startthread">Start Thread</a></li>
+            <li><a href="../yourfeed">Your Threads</a></li>
+          {% endif %}
+        </ul>
+        {% if not authenticated %}
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../register">Sign Up</a></li>
+            <li><a href="../login">Login</a></li>
+          </ul>
+        {% endif %}
+        {% if authenticated %}
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../logout/">Logout</a></li>
+          </ul>
+        {% endif %}
+      </div>
+    </nav>
+<div class="container">
+  {% if numPosts > 0 %}
+  <hr>
+{% endif %}
+  <div class="content">
+	{% if numPosts == 0 %}
+		{% if not authenticated %}
+			<div style="font-size: 110%;">Login to see your posts!</div>
+		{% endif %}
+		{% if authenticated %}
+			<div style="font-size: 110%;">You have not made any posts yet.</div>
+		{% endif %}
+	{% endif %}
+{% for post in posts %}
+    <div class="postdiv">
+        <div class="posttitle"><p><a href="../thread/{{ post.slug }}" class="postlink" style="font-size: 110%;">{{ post.title }}</a> / <a onclick="copyText('{{ post.slug }}')"><i class="fa fa-link" aria-hidden="true" title="link" id="black"></i></a> / <a href='{{ post.reportLink }}'><i class="fa fa-flag" aria-hidden="true" title="flag" id="pointer"></i></a></p></div>
+        <p align="right" class="timestamp">Written on {{ post.created_on }}</p>
+        <p align="right" class="category">Posted in <span class="field">{{ post.field }}</span></p>
+        {% if post.commentCount > 0 %}
+        	<p align="right">Responses: <span class="green">{{ post.commentCount }}</span></p>
+        {% endif %}
+        {% if post.commentCount == 0 %}
+        	<p align="right">Reponses: <span class="red">{{ post.commentCount }}</span></p>
+        {% endif %}
+    </div>
+  <hr>
+{% endfor %}
+
+        <script type="text/javascript">
+            function copyText(slug) {
+                window.prompt("You are about to copy this post's link to the clipboard. Press Ctrl / Cmd + C and Enter to proceed.", "http://www.devhaven.io/thread/" + slug);
+            }
+        </script>
+  </div>
+     <div class="post" style="position: relative;">
+        <h1 class="overflow">{{ post.title }}</h1>
+        <hr>
+        <div class="over">
+        <p>
+            {{ post.text | safe }}
+        </p>
+        </div>
+        <hr>
+
+        <p align="right">
+            {% load hitcount_tags %}
+            Views: {% get_hit_count for post %}<br>
+            {% if post.title == "Best Resources for Front-end Development" %}
+              Written by <a href="{% url 'userprofile' post.author %}"><span class="author"><span class="green">mememaster_owen</span></a> on {{ post.created_on }}<br>
+            {% endif %}
+            {% if post.title != "Best Resources for Front-end Development" %}
+              Written by <a href="{% url 'userprofile' post.author %}"><span class="author"><span class="green">{{ post.author }}</span></a> on {{ post.created_on }}<br>
+            {% endif %}
+            Posted in <span class="green">{{ post.field }}</span><br>
+            {% if post.author == request.user or request.user.username == "henrydavidzhu" %}
+              <a href="{% url 'post_edit' pk=post.pk %}" class="green">Edit</a> or 
+              <a href="{% url 'delete_new' pk=post.pk %}" class="green">Delete</a> this thread<br>
+            {% endif %}
+        </p>
+    
+
+    <div>
+        <div class="title-div"><h1 align="center" class="smaller">Add Response</h1></div>
+        <div class="description-div">
+        <p id="description">Before posting a new response, please glance your post over to make sure that it is on-topic (must relate directly to programming) and thorough (provides enough detail), yet is concise and clear. <b>LaTeX</b> features and syntax highlighting for more languages will be supported soon. Currently, we support syntax highlighting for 10 major languages (HTML/XML, JavaScript, CSS, PHP, Ruby, Python, Java, C, C#, and C++).</p></div>
+        <form action="" method="POST" action="" class="form-horizontal">
+            {% csrf_token %}
+            <div class="form-group">
+              <div class="col-md-12">     
+                <textarea id="id_text" name="text" rows="10" placeholder="Content" pattern=".{120,}" title="The content must be at least 120 characters in length." class="tinymce"></textarea>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-md-3" id="submit-thread">
+                <button type="submit" class="btn btn-primary" id="submit-button">Submit New Response</button>
+              </div>
+            </div>
+        </form>
+    </div>
+
+    <br>
+
+    {% if post.comment_set.all %}
+    <div class="comments">
+        {% if post.commentCount > 0 %}
+          <hr>
+        {% endif %}
+        {% for comment in post.comment_set.all %}
+            
+              <p>
+                  {{ comment.text | safe }}
+              </p>
+              <p align="right">
+
+                  {% if comment.name %}
+                  <a href="{% url 'userprofile' comment.name %}"><span class="green">                  
+                    {{ comment.name }}
+                  </span></a>
+                  {% endif %}
+                  {% if not comment.name %}
+                  <span class="green">                  
+                    Guest
+                  </span></a>
+                  {% endif %}
+                   said on {{ comment.created_on }}<br>
+                    {% if comment.name == request.user or request.user.username == "henrydavidzhu" %}
+                         <a href="{% url 'response_edit' pk=comment.pk %}" class="green">Edit</a> or 
+                         <a href="{% url 'delete_response' pk=comment.pk %}" class="green">Delete</a> this response<br>
+                    {% endif %}
+              </p>
+              <hr>
+        {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

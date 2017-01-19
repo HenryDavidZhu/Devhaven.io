@@ -1,0 +1,210 @@
+{% extends "webapp/index.html" %}
+
+{% block content %}
+<script>
+  tinymce.init({ selector:'textarea',
+  plugins: "codesample link",
+  toolbar: "styleselect | undo redo | removeformat | bold italic underline |  aligncenter alignjustify  | bullist numlist outdent indent | link | codesample",
+  content_css: "../../../static/webapp/custom_content.css",
+  'paste_remove_spans': true,
+  fontsize_formats: "14px",
+  style_formats:
+   [
+      {
+         title:'Inline',
+         items:[
+            {
+               title:'Bold',
+               icon:'bold',
+               format:'bold'
+            },
+            {
+               title:'Italic',
+               icon:'italic',
+               format:'italic'
+            },
+            {
+               title:'Underline',
+               icon:'underline',
+               format:'underline'
+            },
+            {
+               title:'Strikethrough',
+               icon:'strikethrough',
+               format:'strikethrough'
+            },
+            {
+               title:'Superscript',
+               icon:'superscript',
+               format:'superscript'
+            },
+            {
+               title:'Subscript',
+               icon:'subscript',
+               format:'subscript'
+            },
+            {
+               title:'Code',
+               icon:'code',
+               format:'code'
+            }
+         ]
+      },
+      {
+         title:'Blocks',
+         items:[
+            {
+               title:'Paragraph',
+               format:'p'
+            },
+            {
+               title:'Blockquote',
+               format:'blockquote'
+            },
+            {
+               title:'Div',
+               format:'div'
+            },
+            {
+               title:'Pre',
+               format:'pre'
+            }
+         ]
+      },
+      {
+         title:'Alignment',
+         items:[
+            {
+               title:'Left',
+               icon:'alignleft',
+               format:'alignleft'
+            },
+            {
+               title:'Center',
+               icon:'aligncenter',
+               format:'aligncenter'
+            },
+            {
+               title:'Right',
+               icon:'alignright',
+               format:'alignright'
+            },
+            {
+               title:'Justify',
+               icon:'alignjustify',
+               format:'alignjustify'
+            }
+         ]
+      }
+   ],
+  setup : function(ed) {
+     ed.on('init', function(ed) {
+      ed.target.editorCommands.execCommand("fontName", false, "Helvetica");
+      ed.target.editorCommands.execCommand("fontSize", false, "14px");
+     });
+    }
+  });
+</script>
+
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="../../../" id="navtitle">Devhaven.io</a>
+        </div>
+        <ul class="nav navbar-nav">
+          {% if authenticated %}
+            <li><a href="../../../startthread">Start Thread</a></li>
+            <li><a href="../../../yourfeed">Your Threads</a></li>
+          {% endif %}
+        </ul>
+        {% if not authenticated %}
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../../../register">Sign Up</a></li>
+            <li><a href="../../../login">Login</a></li>
+          </ul>
+        {% endif %}
+        {% if authenticated %}
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../../../logout/">Logout</a></li>
+          </ul>
+        {% endif %}
+      </div>
+    </nav>
+
+{% if post.author == request.user or request.user.username == "henrydavidzhu" %}
+<div class="container">
+  <div>
+    <br>
+    
+    <div class="description-div">
+        <p id="description">Before editing a thread, please glance your post over to make sure that it is on-topic (must relate directly to programming) and thorough (provides enough detail), yet is concise and clear. <b>LaTeX</b> features and syntax highlighting for more languages will be supported soon. Currently, we support syntax highlighting for 10 major languages (HTML/XML, JavaScript, CSS, PHP, Ruby, Python, Java, C, C#, and C++).</p>
+    </div>
+
+      <form action="" class='form-horizontal' method="POST" action="">
+        {% csrf_token %}
+        <div class="form-group">  
+          <div class="col-md-12">
+            <input id="id_title" class="form-control" name="title" type="text" placeholder="{{ post.title }}" pattern=".{10,}" title="The thread title must be at least 10 characters in length." style="font-size: 15px"/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-md-12">     
+            <textarea id="id_text" name="text" rows="10" placeholder="Content" class="tinymce">{{ post.text }}</textarea>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-md-12">
+            <select name="field" class="form-control">
+                <option disabled></option>
+                <option>Hardware and OS</option>
+                <option value="Desktops">&nbsp;&nbsp;&nbsp;&nbsp;Desktops</option>
+                <option value="Tablets">&nbsp;&nbsp;&nbsp;&nbsp;Tablets</option>
+                <option value="Phones">&nbsp;&nbsp;&nbsp;&nbsp;Phones</option>
+                <option value="Wearables">&nbsp;&nbsp;&nbsp;&nbsp;Wearables</option>
+                <option value="Windows">&nbsp;&nbsp;&nbsp;&nbsp;Windows</option>
+                <option value="Mac OS X">&nbsp;&nbsp;&nbsp;&nbsp;Mac OS X</option>
+                <option value="Linux and Unix">&nbsp;&nbsp;&nbsp;&nbsp;Linux and Unix</option>
+                <option disabled></option>
+                <option>Programming and Computer Science</option>
+                <option value="Software Development">&nbsp;&nbsp;&nbsp;&nbsp;Software Development</option>
+                <option value="Web Development (Front)">&nbsp;&nbsp;&nbsp;&nbsp;Web Development (Front)</option>
+                <option value="Web Development (Back)">&nbsp;&nbsp;&nbsp;&nbsp;Web Development (Back)</option>
+                <option value="Mobile Development">&nbsp;&nbsp;&nbsp;&nbsp;Mobile Development</option>
+                <option value="Game Development">&nbsp;&nbsp;&nbsp;&nbsp;Game Development</option>
+                <option value="Algorithms and Data Structures">&nbsp;&nbsp;&nbsp;&nbsp;Algorithms and Data Structures</option>
+                <option value="Databases">&nbsp;&nbsp;&nbsp;&nbsp;Databases</option>
+                <option value="IDE / Text Editors">&nbsp;&nbsp;&nbsp;&nbsp;IDE / Text Editors</option>
+                <option disabled></option>
+                <option>Community Discussion</option>
+                <option value="Tutorial">&nbsp;&nbsp;&nbsp;&nbsp;Tutorial</option>
+                <option value="Opinion">&nbsp;&nbsp;&nbsp;&nbsp;Opinion</option>
+                <option value="Miscellaneous">&nbsp;&nbsp;&nbsp;&nbsp;Miscellaneous</option>
+                <option disabled></option>
+            </select>
+          </div>
+        </div>
+
+          <div class="form-group">
+            <div class="col-md-3" id="submit-thread">
+            <button type="submit" class="btn btn-primary" id="submit-button">Save Changes To Thread</button>
+          </div>
+        </div>
+      </form>
+  </div>
+</div>
+{% endif %}
+
+{% if post.author != request.user and request.user.username != "henrydavidzhu" %}
+<div class="container">
+  <div class="content">
+    Nice try, but you are prohibited from editing other people's posts!
+  </div>
+</div>
+{% endif %}
+
+<script>
+$('#id_title').val( $('#id_title').val() + "{{ post.title | safe }}" )
+</script>
+{% endblock %}

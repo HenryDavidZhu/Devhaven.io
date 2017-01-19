@@ -1,0 +1,13 @@
+Django==1.9.6
+Pygments==2.0.2
+autopep8==1.2
+cx-Freeze==4.3.4
+dj-database-url==0.4.1
+django-registration-redux==1.4
+django-simple-email-confirmation==0.12
+django-tinymce==2.3.0
+django-hitcount==1.2.1
+gunicorn==19.4.5
+pep8==1.6.2
+whitenoise==3.0
+psycopg2==2.6.1

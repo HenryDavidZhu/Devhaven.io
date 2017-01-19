@@ -1,0 +1,41 @@
+{% extends "webapp/index.html" %}
+{% block content %}
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="../" id="navtitle">Devhaven.io</a>
+        </div>
+        <ul class="nav navbar-nav">
+          {% if authenticated %}
+            <li><a href="../startthread">Start Thread</a></li>
+            <li><a href="../yourfeed">Your Threads</a></li>
+          {% endif %}
+        </ul>
+        {% if not authenticated %}
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../register">Sign Up</a></li>
+            <li><a href="../login">Login</a></li>
+          </ul>
+        {% endif %}
+        {% if authenticated %}
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../logout/">Logout</a></li>
+          </ul>
+        {% endif %}
+      </div>
+    </nav>
+<div class="container" id="register-wrapper">
+	<div class="wrapper">
+		{% if displaySignUp %}  
+		<form class="form-register" method='POST' action='' autocomplete="off" role="form"> {% csrf_token %}  
+			<h1 align="center">{{ title }}</h1>
+      <p>Registered users get exclusive features such as being able to edit and delete their comments, create new threads, and view specific threads created by them.</p>
+			<input id="first" type="text" class="form-control" name="username" placeholder="Username" required="true" pattern=".{7,75}" title="The username must be between 7 and 75 characters in length." autofocus="" />
+			<input id="third" type="email" class="form-control" name="email" placeholder="Email" required="true" autocomplete="off" /> 
+			<input id="second" type="password" class="form-control" name="password" placeholder="Password" pattern=".{5,}" required="true" title="The password must be at least 12 characters in length."/><div style="height:10px;"></div>
+			<button class="btn btn-primary btn-sm" type="submit" id="sign-up">Sign Up</button>
+		</form>
+		{% endif %}
+	</div>
+</div>
+{% endblock %}
