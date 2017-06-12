@@ -1,7 +1,7 @@
 import os
 from django.conf import settings
 
-DEBUG = False
+DEBUG = None
 TEMPLATE_DEBUG = False
 
 ALLOWED_HOSTS = ["worldofcoding1.herokuapp.com"]
