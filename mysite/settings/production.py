@@ -4,7 +4,7 @@ from django.conf import settings
 DEBUG = False
 TEMPLATE_DEBUG = False
 
-ALLOWED_HOSTS = ["http://worldofcoding1.herokuapp.com/"]
+ALLOWED_HOSTS = ["worldofcoding1.herokuapp.com"]
 
 DATABASES = settings.DATABASES
 
