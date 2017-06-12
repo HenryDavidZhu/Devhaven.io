@@ -4,6 +4,8 @@ from django.conf import settings
 DEBUG = False
 TEMPLATE_DEBUG = False
 
+ALLOWED_HOSTS = ["http://worldofcoding1.herokuapp.com/"]
+
 DATABASES = settings.DATABASES
 
 # Parse database configuration from $DATABASE_URL
