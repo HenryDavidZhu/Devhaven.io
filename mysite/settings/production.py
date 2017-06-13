@@ -1,10 +1,10 @@
 import os
 from django.conf import settings
 
-DEBUG = None
-TEMPLATE_DEBUG = True
+DEBUG = False
+TEMPLATE_DEBUG = False
 
-#ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*']
 
 DATABASES = settings.DATABASES
 
